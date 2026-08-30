@@ -271,7 +271,7 @@
   import AdminLayout from "~/layouts/AdminLayout.vue";
   import swal from "~/plugins/sweetalert.js";
   import Pagination from "~/components/core/Pagination.vue";
-  import { useAuthedUser } from "~/stores/authedUser.js";
+  import { useAuthedUser } from "~/stores/authedUser";
   import { StatusEnum } from "~/lib/status.enum";
 
   const router = useRouter();

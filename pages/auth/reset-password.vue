@@ -103,8 +103,8 @@ definePageMeta({
   title: "D-liv | Réinitialiser le mot de passe",
 });
 
-let password = ref("Stro@ngPass123");
-let password_confirmation = ref("Stro@ngPass123");
+let password = ref("");
+let password_confirmation = ref("");
 let errors = ref(null);
 
 const isButtonDisabled = computed(() => {

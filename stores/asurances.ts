@@ -63,7 +63,7 @@ export const useAssurancesStore = defineStore("assurances", {
     async add(data) {
       try {
         return await axiosClient3.post("/assurances", data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -71,7 +71,7 @@ export const useAssurancesStore = defineStore("assurances", {
     async update(data) {
       try {
         return await axiosClient3.patch("/assurances/" + data._id, data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -79,7 +79,7 @@ export const useAssurancesStore = defineStore("assurances", {
     async delete(data) {
       try {
         return await axiosClient3.delete("/assurances/" + data._id, data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },

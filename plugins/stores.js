@@ -1,6 +1,6 @@
-import {useAuthedUser} from "~/stores/authedUser.js";
-import {useUsersStore} from "~/stores/account.js";
-import {useCategoriesStore} from "~/stores/categories.js";
+import {useAuthedUser} from "~/stores/authedUser";
+import {useUsersStore} from "~/stores/account";
+import {useCategoriesStore} from "~/stores/categories";
 
 export default defineNuxtPlugin((NuxtApp) => {
     return {

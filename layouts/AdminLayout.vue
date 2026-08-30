@@ -12,7 +12,7 @@
 <script setup>
   import Sidebar from "~/components/sidebar/Sidebar.vue";
   import Navbar from "~/components/navbar/Navbar.vue";
-  import {useAuthedUser} from "~/stores/authedUser.js";
+  import {useAuthedUser} from "~/stores/authedUser";
 
   const authedUser = useAuthedUser();
   const { $authedUserStore } = useNuxtApp();

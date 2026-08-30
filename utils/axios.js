@@ -32,18 +32,27 @@ const createAxiosClient2 = (baseURL) => {
       return response;
     },
     async (error) => {
-      if (error.response && (error.response.status === 401)) {
+      const originalRequest = error.config;
+
+      // 401 → on tente un refresh une seule fois, puis on rejoue la requête
+      if (
+        error.response &&
+        error.response.status === 401 &&
+        originalRequest &&
+        !originalRequest._retry
+      ) {
+        originalRequest._retry = true;
         const authedUser = useAuthedUser();
+        const newToken = await authedUser.refreshToken();
 
-        //redirect to login page
-        // await authedUser.logout();
-
-        await authedUser.refreshToken();
+        if (newToken) {
+          originalRequest.headers.authentication = newToken;
+          return axiosClient(originalRequest);
+        }
       }
 
-      console.error("error => ", error);
-
-      return error;
+      // Toute autre erreur (ou refresh échoué) est propagée correctement
+      return Promise.reject(error);
     },
   );
 

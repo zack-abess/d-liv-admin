@@ -5,6 +5,7 @@ export const useAuthedUser = defineStore("authedUser", {
     isAuthenticated: false,
     authData: {
       token: "",
+      refreshToken: "",
     },
     userData: null,
     isLoading: false,
@@ -14,11 +15,12 @@ export const useAuthedUser = defineStore("authedUser", {
     
     async init() {
       const token = localStorage.getItem("token");
+      const refreshToken = localStorage.getItem("refreshToken");
 
       if (token) {
         this.$state.authData.token = token;
+        this.$state.authData.refreshToken = refreshToken || "";
         const data = await this.fetchUserData();
-        console.log("init user data => ", data);
         if (!data) {
           this.clearUserData();
         } else {
@@ -44,8 +46,12 @@ export const useAuthedUser = defineStore("authedUser", {
 
         this.$state.userData = data.user;
         this.$state.authData.token = data.token;
-        //save token to local storage
+        this.$state.authData.refreshToken = data.refreshToken || "";
+        //save tokens to local storage
         localStorage.setItem("token", data.token);
+        if (data.refreshToken) {
+          localStorage.setItem("refreshToken", data.refreshToken);
+        }
         this.$state.isAuthenticated = true;
         this.$state.error = null;
         this.$state.isLoading = false;
@@ -68,19 +74,45 @@ export const useAuthedUser = defineStore("authedUser", {
 
         this.$state.userData = data;
         return data;
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to fetch user data:", error);
         return null;
       }
     },
 
     async refreshToken() {
-      //TODO: implement refresh token
+      const refreshToken =
+        this.$state.authData.refreshToken || localStorage.getItem("refreshToken");
+
+      // Pas de refresh token disponible → déconnexion
+      if (!refreshToken) {
+        await this.logout();
+        return null;
+      }
+
+      try {
+        // axiosClient (sans intercepteur) pour éviter toute boucle sur 401
+        const res = await axiosClient.post("/auth/refresh-token", { refreshToken });
+        const newToken = res?.data?.token;
+
+        if (!newToken) {
+          throw new Error("Réponse de refresh invalide");
+        }
+
+        this.$state.authData.token = newToken;
+        localStorage.setItem("token", newToken);
+        return newToken;
+      } catch (error: any) {
+        // Refresh token expiré/invalide → on déconnecte proprement
+        await this.logout();
+        return null;
+      }
     },
 
     async logout() {
       const router = useRouter();
       localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
       this.clearUserData();
       await router.push("/auth/login");
     },

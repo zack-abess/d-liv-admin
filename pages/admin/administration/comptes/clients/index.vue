@@ -285,7 +285,7 @@
   import swal from "~/plugins/sweetalert.js";
   import { formatDate } from "~/utils/helpers.js";
   import Pagination from "~/components/core/Pagination.vue";
-  import { useAuthedUser } from "~/stores/authedUser.js";
+  import { useAuthedUser } from "~/stores/authedUser";
 
   const authedUser = useAuthedUser();
   const { $usersStore } = useNuxtApp();

@@ -49,7 +49,7 @@ export const useDeliveriesStore = defineStore("deliveries", {
       this.$state.all.currentPage = 1;
       this.$state.all.pageCount = null;
 
-      const res = await axiosClient3.get("/deliveries", {params: { ...options }});
+      const res = await axiosClient3.post("/deliveries", {params: { ...options }});
 
       if (res.status !== 200 && res.status !== 201) {
         console.log('error', res);
@@ -95,7 +95,7 @@ export const useDeliveriesStore = defineStore("deliveries", {
     async add(data) {
       try {
         return await axiosClient3.post("/deliveries", data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -103,7 +103,7 @@ export const useDeliveriesStore = defineStore("deliveries", {
     async update(data) {
       try {
         return await axiosClient3.patch("/deliveries/" + data._id, data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -111,7 +111,7 @@ export const useDeliveriesStore = defineStore("deliveries", {
     async delete(data) {
       try {
         return await axiosClient3.delete("/deliveries/" + data._id, data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },

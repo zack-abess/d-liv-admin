@@ -109,7 +109,7 @@ export const useUsersStore = defineStore("users", {
     async addUser(data) {
       try {
         return await axiosClient2.post("/users", data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -117,7 +117,7 @@ export const useUsersStore = defineStore("users", {
     async updateUser(user) {
       try {
         return await axiosClient2.put("/users" + user._id, user);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -126,14 +126,14 @@ export const useUsersStore = defineStore("users", {
     async checkEmail(email) {
       try {
           return await axiosClient2.post("/auth/check-email", {email});
-      } catch (error) {
+      } catch (error: any) {
           console.log(error);
       }
     },
     async checkPhone(phone) {
       try {
           return await axiosClient2.post("/auth/check-phone", {phone});
-      } catch (error) {
+      } catch (error: any) {
           console.log(error);
       }
     },

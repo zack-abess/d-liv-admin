@@ -63,7 +63,7 @@ export const useCategoriesStore = defineStore("categories", {
     async add(data) {
       try {
         return await axiosClient3.post("/categories", data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -71,7 +71,7 @@ export const useCategoriesStore = defineStore("categories", {
     async update(data) {
       try {
         return await axiosClient3.patch("/categories/" + data._id, data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
@@ -79,7 +79,7 @@ export const useCategoriesStore = defineStore("categories", {
     async delete(data) {
       try {
         return await axiosClient3.delete("/categories/" + data._id, data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       }
     },
