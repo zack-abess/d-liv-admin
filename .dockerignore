@@ -10,3 +10,8 @@ dist
 .env
 .env.*
 !.env.example
+
+# Fichier genere par pnpm 10/11 en local (champ `allowBuilds`). Il ne declare
+# pas de champ `packages:`, donc le pnpm 9 utilise dans l'image le rejette avec
+# « ERROR packages field missing or empty ». Inutile au build Docker.
+pnpm-workspace.yaml
