@@ -9,12 +9,14 @@
 # ---- Stage 1 : build ----
 FROM node:20-alpine AS builder
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@9
 
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+# NODE_ENV=development force l'installation des devDependencies (necessaires au
+# build). Coolify injecte NODE_ENV=production comme ARG dans toutes les etapes.
+RUN NODE_ENV=development pnpm install --frozen-lockfile
 
 COPY . .
 RUN pnpm run build
