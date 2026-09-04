@@ -36,9 +36,14 @@ export const useAuthedUser = defineStore("authedUser", {
 
       this.$state.error = null;
       this.$state.isLoading = true;
+      // Le rôle est OBLIGATOIRE ici. Sans lui l'API applique « user » par
+      // défaut : elle ne trouve pas de compte admin correspondant, en crée un
+      // avec le rôle client (et un client Stripe au passage), et renvoie un
+      // token `role: user` — que tous les endpoints @Roles(ADMIN) refusent.
       const res = await axiosClient.post("/auth/login", {
         email,
         password,
+        role: "admin",
       });
 
       if ( res.status === 200 || res.status === 201) {
